@@ -193,16 +193,16 @@ function pickerDateRange(inputId, options) {
       '<input type="text" class="ta_ipt_text_s" name="' + this.startDateId + '" id="' + this.startDateId + '" value="' + this.mOpts.startDate + '" readonly />',
       '<span class="' + this.timeWrap + '">',
       '<select name="' + this.startHourId + '" id="' + this.startHourId + '">',
-      '<option value="00" selected="selected">00</option>',
+      '<option value="0" selected="selected">00</option>',
       time.startHour,
       '</select>',
       '<span>:</span> ',
       '<select name="' + this.startSecondId + '" id="' + this.startSecondId + '">',
-      '<option value="00" selected="selected">00</option>',
+      '<option value="0" selected="selected">00</option>',
       time.startSecond,
       '</select></span>',
       '<span class="' + this.mOpts.joinLineId + '"> - </span>',
-      '<input type="text" class="ta_ipt_text_s" name="' + this.endDateId + '" id="' + this.endDateId + '" value="' + this.mOpts.endDate + '" readonly /><br />',
+      '<input type="text" class="ta_ipt_text_s" name="' + this.endDateId + '" id="' + this.endDateId + '" value="' + this.mOpts.endDate + '" readonly />',
       '<span class="' + this.timeWrap + '">',
       '<select name="' + this.endHourId + '" id="' + this.endHourId + '">',
       time.endHour,
@@ -268,16 +268,16 @@ function pickerDateRange(inputId, options) {
   // 初始化目标地址的元素
   if (1 > $('#' + this.mOpts.startDateId).length) {
     $('' != this.mOpts.target ? '#' + this.mOpts.target : 'body').append('<input type="hidden" id="' + this.mOpts.startDateId + '" name="' + this.mOpts.startDateId + '" value="' + this.mOpts.startDate + '" />' +
-      '<input type="hidden" id="' + this.mOpts.startHourId + '" name="' + this.mOpts.startHourId + '" value="' + this.mOpts.startHour + '" />' +
-      '<input type="hidden" id="' + this.mOpts.startSecondId + '" name="' + this.mOpts.startSecondId + '" value="' + this.mOpts.startSecond + '" />'
+      '<input type="hidden" id="' + this.mOpts.startHourId + '" name="' + this.mOpts.startHourId + '" value="00" />' +
+      '<input type="hidden" id="' + this.mOpts.startSecondId + '" name="' + this.mOpts.startSecondId + '" value="00" />'
     );
   } else {
     $('#' + this.mOpts.startDateId).val(this.mOpts.startDate);
   }
   if (1 > $('#' + this.mOpts.endDateId).length) {
     $('' != this.mOpts.target ? '#' + this.mOpts.target : 'body').append('<input type="hidden" id="' + this.mOpts.endDateId + '" name="' + this.mOpts.endDateId + '" value="' + this.mOpts.endDate + '" />' +
-      '<input type="hidden" id="' + this.mOpts.endHourId + '" name="' + this.mOpts.endHourId + '" value="' + this.mOpts.endHour + '" />' +
-      '<input type="hidden" id="' + this.mOpts.endSecondId + '" name="' + this.mOpts.endSecondId + '" value="' + this.mOpts.endSecond + '" />'
+      '<input type="hidden" id="' + this.mOpts.endHourId + '" name="' + this.mOpts.endHourId + '" value="23" />' +
+      '<input type="hidden" id="' + this.mOpts.endSecondId + '" name="' + this.mOpts.endSecondId + '" value="59" />'
     );
   } else {
     $('#' + this.mOpts.endDateId).val(this.mOpts.endDate);
@@ -1192,11 +1192,11 @@ pickerDateRange.prototype.close = function (btnSubmit) {
 
     // 更改目标元素值
     $('#' + this.mOpts.startDateId).val($('#' + this.startDateId).val());
-    // $('#' + this.mOpts.startHourId).val($('#' + this.startHourId).val());
-    // $('#' + this.mOpts.startSecondId).val($('#' + this.startSecondId).val());
+    $('#' + this.mOpts.startHourId).val(__method.formatTime($('#' + this.startHourId).val()));
+    $('#' + this.mOpts.startSecondId).val(__method.formatTime($('#' + this.startSecondId).val()));
     $('#' + this.mOpts.endDateId).val($('#' + this.endDateId).val());
-    // $('#' + this.mOpts.endHourId).val($('#' + this.endHourId).val());
-    // $('#' + this.mOpts.endSecondId).val($('#' + this.endSecondId).val());
+    $('#' + this.mOpts.endHourId).val(__method.formatTime($('#' + this.endHourId).val()));
+    $('#' + this.mOpts.endSecondId).val(__method.formatTime($('#' + this.endSecondId).val()));
     $('#' + this.mOpts.startCompareDateId).val($('#' + this.startCompareDateId).val());
     $('#' + this.mOpts.endCompareDateId).val($('#' + this.endCompareDateId).val());
     //点击确定按钮进行查询后将取消所有的今天 昨天 最近7天的快捷链接 added by johnnyzheng 11-29
@@ -1207,11 +1207,6 @@ pickerDateRange.prototype.close = function (btnSubmit) {
     }
     // 如果开始日期等于结束日期，则比较小时/分钟，始终保持开始时间小于结束时间
     if (0 == this.compareStrDate($('#' + this.startDateId).val(), $('#' + this.endDateId).val())) {
-      // 更改对应输入框的值(结束时间)
-      // $('#' + this.dateInput).val($('#' + this.startDateId).val());
-      // 更改对应输入框的值(开始时间)
-      // $('#' + this.startDateId).val(ymdFormat);
-      // ymdFormat = $('#' + this.dateInput).val();
       var startHour = Number($('#' + this.startHourId).val()),
         startSecond = Number($('#' + this.startSecondId).val()),
         endHour = Number($('#' + this.endHourId).val()),
@@ -1221,12 +1216,20 @@ pickerDateRange.prototype.close = function (btnSubmit) {
         $('#' + this.mOpts.startSecondId).val($('#' + this.startSecondId).val());
         $('#' + this.mOpts.endHourId).val($('#' + this.endHourId).val());
         $('#' + this.mOpts.endSecondId).val($('#' + this.endSecondId).val());
+        $('#' + this.startHourId).val(startHour);
+        $('#' + this.startSecondId).val(startSecond);
+        $('#' + this.startHourId).val(endHour);
+        $('#' + this.startSecondId).val(endSecond);
       } else if (startHour == endHour) { // 1:00 vs 1:00
         if (startSecond <= endSecond) { // 1:01 vs 1:02, 1:02 vs 1:02
           $('#' + this.mOpts.startHourId).val($('#' + this.startHourId).val());
           $('#' + this.mOpts.startSecondId).val($('#' + this.startSecondId).val());
           $('#' + this.mOpts.endHourId).val($('#' + this.endHourId).val());
           $('#' + this.mOpts.endSecondId).val($('#' + this.endSecondId).val());
+          $('#' + this.startHourId).val(startHour);
+          $('#' + this.startSecondId).val(startSecond);
+          $('#' + this.startHourId).val(endHour);
+          $('#' + this.startSecondId).val(endSecond);
         } else { // 1:03 vs 1:02 => 1:02 vs 1:03
           $('#' + this.mOpts.startHourId).val($('#' + this.endHourId).val());
           $('#' + this.mOpts.startSecondId).val($('#' + this.endSecondId).val());
@@ -1564,3 +1567,13 @@ pickerDateRange.prototype.formatDate = function (ymd) {
     return y + '-' + m + '-' + d;
   });
 };
+
+/**
+ * @description 时间格式化，加前导零
+ */
+pickerDateRange.prototype.formatTime = function (time) {
+  if (time < 10) {
+    time = '0' + time;
+  }
+  return time;
+}
