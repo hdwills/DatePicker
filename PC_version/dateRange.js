@@ -268,16 +268,16 @@ function pickerDateRange(inputId, options) {
   // 初始化目标地址的元素
   if (1 > $('#' + this.mOpts.startDateId).length) {
     $('' != this.mOpts.target ? '#' + this.mOpts.target : 'body').append('<input type="hidden" id="' + this.mOpts.startDateId + '" name="' + this.mOpts.startDateId + '" value="' + this.mOpts.startDate + '" />' +
-      '<input type="hidden" id="' + this.mOpts.startHourId + '" name="' + this.mOpts.startHourId + '" value="00" />' +
-      '<input type="hidden" id="' + this.mOpts.startSecondId + '" name="' + this.mOpts.startSecondId + '" value="00" />'
+      '<input type="hidden" id="' + this.mOpts.startHourId + '" name="' + this.mOpts.startHourId + '" value="00" class="' + this.timeWrap + '" />' +
+      '<input type="hidden" id="' + this.mOpts.startSecondId + '" name="' + this.mOpts.startSecondId + '" value="00" class="' + this.timeWrap + '" />'
     );
   } else {
     $('#' + this.mOpts.startDateId).val(this.mOpts.startDate);
   }
   if (1 > $('#' + this.mOpts.endDateId).length) {
     $('' != this.mOpts.target ? '#' + this.mOpts.target : 'body').append('<input type="hidden" id="' + this.mOpts.endDateId + '" name="' + this.mOpts.endDateId + '" value="' + this.mOpts.endDate + '" />' +
-      '<input type="hidden" id="' + this.mOpts.endHourId + '" name="' + this.mOpts.endHourId + '" value="23" />' +
-      '<input type="hidden" id="' + this.mOpts.endSecondId + '" name="' + this.mOpts.endSecondId + '" value="59" />'
+      '<input type="hidden" id="' + this.mOpts.endHourId + '" name="' + this.mOpts.endHourId + '" value="23" class="' + this.timeWrap + '" />' +
+      '<input type="hidden" id="' + this.mOpts.endSecondId + '" name="' + this.mOpts.endSecondId + '" value="59" class="' + this.timeWrap + '" />'
     );
   } else {
     $('#' + this.mOpts.endDateId).val(this.mOpts.endDate);
