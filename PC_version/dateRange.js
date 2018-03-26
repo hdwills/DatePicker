@@ -1192,11 +1192,8 @@ pickerDateRange.prototype.close = function (btnSubmit) {
 
     // 更改目标元素值
     $('#' + this.mOpts.startDateId).val($('#' + this.startDateId).val());
-    $('#' + this.mOpts.startHourId).val(__method.formatTime($('#' + this.startHourId).val()));
-    $('#' + this.mOpts.startSecondId).val(__method.formatTime($('#' + this.startSecondId).val()));
     $('#' + this.mOpts.endDateId).val($('#' + this.endDateId).val());
-    $('#' + this.mOpts.endHourId).val(__method.formatTime($('#' + this.endHourId).val()));
-    $('#' + this.mOpts.endSecondId).val(__method.formatTime($('#' + this.endSecondId).val()));
+    __method.changeTimeValue($('#' + this.startHourId).val(), $('#' + this.startSecondId).val(), $('#' + this.endHourId).val(), $('#' + this.endSecondId).val());
     $('#' + this.mOpts.startCompareDateId).val($('#' + this.startCompareDateId).val());
     $('#' + this.mOpts.endCompareDateId).val($('#' + this.endCompareDateId).val());
     //点击确定按钮进行查询后将取消所有的今天 昨天 最近7天的快捷链接 added by johnnyzheng 11-29
@@ -1212,46 +1209,33 @@ pickerDateRange.prototype.close = function (btnSubmit) {
         endHour = Number($('#' + this.endHourId).val()),
         endSecond = Number($('#' + this.endSecondId).val());
       if (startHour < endHour) { // 1:00 vs 2:00
-        $('#' + this.mOpts.startHourId).val($('#' + this.startHourId).val());
-        $('#' + this.mOpts.startSecondId).val($('#' + this.startSecondId).val());
-        $('#' + this.mOpts.endHourId).val($('#' + this.endHourId).val());
-        $('#' + this.mOpts.endSecondId).val($('#' + this.endSecondId).val());
+        __method.changeTimeValue($('#' + this.startHourId).val(), $('#' + this.startSecondId).val(), $('#' + this.endHourId).val(), $('#' + this.endSecondId).val());
         $('#' + this.startHourId).val(startHour);
         $('#' + this.startSecondId).val(startSecond);
-        $('#' + this.startHourId).val(endHour);
-        $('#' + this.startSecondId).val(endSecond);
+        $('#' + this.endHourId).val(endHour);
+        $('#' + this.endSecondId).val(endSecond);
       } else if (startHour == endHour) { // 1:00 vs 1:00
         if (startSecond <= endSecond) { // 1:01 vs 1:02, 1:02 vs 1:02
-          $('#' + this.mOpts.startHourId).val($('#' + this.startHourId).val());
-          $('#' + this.mOpts.startSecondId).val($('#' + this.startSecondId).val());
-          $('#' + this.mOpts.endHourId).val($('#' + this.endHourId).val());
-          $('#' + this.mOpts.endSecondId).val($('#' + this.endSecondId).val());
+          __method.changeTimeValue($('#' + this.startHourId).val(), $('#' + this.startSecondId).val(), $('#' + this.endHourId).val(), $('#' + this.endSecondId).val());
           $('#' + this.startHourId).val(startHour);
           $('#' + this.startSecondId).val(startSecond);
-          $('#' + this.startHourId).val(endHour);
-          $('#' + this.startSecondId).val(endSecond);
+          $('#' + this.endHourId).val(endHour);
+          $('#' + this.endSecondId).val(endSecond);
         } else { // 1:03 vs 1:02 => 1:02 vs 1:03
-          $('#' + this.mOpts.startHourId).val($('#' + this.endHourId).val());
-          $('#' + this.mOpts.startSecondId).val($('#' + this.endSecondId).val());
-          $('#' + this.mOpts.endHourId).val($('#' + this.startHourId).val());
-          $('#' + this.mOpts.endSecondId).val($('#' + this.startSecondId).val());
+          __method.changeTimeValue($('#' + this.endHourId).val(), $('#' + this.endSecondId).val(), $('#' + this.startHourId).val(), $('#' + this.startSecondId).val());
           $('#' + this.startHourId).val(endHour);
           $('#' + this.startSecondId).val(endSecond);
           $('#' + this.endHourId).val(startHour);
           $('#' + this.endSecondId).val(startSecond);
         }
       } else { // 2:03 vs 1:22 => 1:22 vs 2:03
-        $('#' + this.mOpts.startHourId).val($('#' + this.endHourId).val());
-        $('#' + this.mOpts.startSecondId).val($('#' + this.endSecondId).val());
-        $('#' + this.mOpts.endHourId).val($('#' + this.startHourId).val());
-        $('#' + this.mOpts.endSecondId).val($('#' + this.startSecondId).val());
+        __method.changeTimeValue($('#' + this.endHourId).val(), $('#' + this.endSecondId).val(), $('#' + this.startHourId).val(), $('#' + this.startSecondId).val());
         $('#' + this.startHourId).val(endHour);
         $('#' + this.startSecondId).val(endSecond);
         $('#' + this.endHourId).val(startHour);
         $('#' + this.endSecondId).val(startSecond);
       }
     }
-
   }
   // 隐藏日期选择框 延迟200ms 关闭日期选择框
   $("#" + __method.calendarId).css('display', 'none');
@@ -1576,4 +1560,18 @@ pickerDateRange.prototype.formatTime = function (time) {
     time = '0' + time;
   }
   return time;
+}
+
+/**
+ * @description 回显赋值
+ * @param {String} a 开始小时
+ * @param {String} b 开始分钟
+ * @param {String} c 结束小时
+ * @param {String} d 结束分钟
+ */
+pickerDateRange.prototype.changeTimeValue = function (a, b, c, d) {
+  $('#' + this.mOpts.startHourId).val(this.formatTime(a));
+  $('#' + this.mOpts.startSecondId).val(this.formatTime(b));
+  $('#' + this.mOpts.endHourId).val(this.formatTime(c));
+  $('#' + this.mOpts.endSecondId).val(this.formatTime(d));
 }
