@@ -38,14 +38,14 @@ function pickerDateRange(inputId, options) {
     minValidDate: '315507600', //最小可用时间，控制日期选择器的可选力度
     maxValidDate: '', // 最大可用时间，与stopToday 配置互斥
     startDateId: 'startDate', // 开始日期输入框ID
-    startHourId: 'startHour',
-    startSecondId: 'startSecond',
+    startHourId: 'startHour', // 开始小时下拉框ID
+    startMinuteId: 'startMinute', // 开始分钟下拉框ID
     startCompareDateId: 'startCompareDate', // 对比开始日期输入框ID
     endDateId: 'endDate', // 结束日期输入框ID
-    endHourId: 'endHour',
-    endSecondId: 'endSecond',
+    endHourId: 'endHour', // 结束小时下拉框ID
+    endMinuteId: 'endMinute', // 结束分钟下拉框ID
     endCompareDateId: 'endCompareDate', // 对比结束日期输入框ID
-    timeSelect: false,
+    timeSelect: false, // 默认关闭时间选择功能
     target: '', // 日期选择框的目标，一般为 <form> 的ID值
     needCompare: false, // 是否需要进行日期对比
     suffix: '', //相应控件的后缀
@@ -129,10 +129,10 @@ function pickerDateRange(inputId, options) {
   // 表单中开始、结束、开始对比、结束对比时间
   this.startDateId = this.mOpts.startDateId + '_' + suffix;
   this.startHourId = this.mOpts.startHourId + '_' + suffix;
-  this.startSecondId = this.mOpts.startSecondId + '_' + suffix;
+  this.startMinuteId = this.mOpts.startMinuteId + '_' + suffix;
   this.endDateId = this.mOpts.endDateId + '_' + suffix;
   this.endHourId = this.mOpts.endHourId + '_' + suffix;
-  this.endSecondId = this.mOpts.endSecondId + '_' + suffix;
+  this.endMinuteId = this.mOpts.endMinuteId + '_' + suffix;
   this.compareCheckboxId = this.mOpts.compareCheckboxId + '_' + suffix;
   this.startCompareDateId = this.mOpts.startCompareDateId + '_' + suffix;
   this.endCompareDateId = this.mOpts.endCompareDateId + '_' + suffix;
@@ -140,25 +140,25 @@ function pickerDateRange(inputId, options) {
   // 初始化日期选择器面板的HTML代码串
   var time = {
     startHour: '',
-    startSecond: '',
+    startMinute: '',
     endHour: '',
-    endSecond: ''
+    endMinute: ''
   }
   for (var i = 1; i < 24; i++) {
     var complementStartHour = i < 10 ? '0' + i : i;
     time.startHour += '<option value=' + i + '>' + complementStartHour + '</option>';
   }
   for (var j = 1; j < 60; j++) {
-    var complementStartSecond = j < 10 ? '0' + j : j;
-    time.startSecond += '<option value=' + j + '>' + complementStartSecond + '</option>'
+    var complementstartMinute = j < 10 ? '0' + j : j;
+    time.startMinute += '<option value=' + j + '>' + complementstartMinute + '</option>'
   }
   for (var i = 0; i < 23; i++) {
     var complementEndHour = i < 10 ? '0' + i : i;
     time.endHour += '<option value=' + i + '>' + complementEndHour + '</option>';
   }
   for (var j = 0; j < 59; j++) {
-    var complementEndSecond = j < 10 ? '0' + j : j;
-    time.endSecond += '<option value=' + j + '>' + complementEndSecond + '</option>'
+    var complementendMinute = j < 10 ? '0' + j : j;
+    time.endMinute += '<option value=' + j + '>' + complementendMinute + '</option>'
   }
   var wrapper = {
     gri: [
@@ -192,25 +192,25 @@ function pickerDateRange(inputId, options) {
       '<div id="' + this.dateRangeDiv + '">',
       '<input type="text" class="ta_ipt_text_s" name="' + this.startDateId + '" id="' + this.startDateId + '" value="' + this.mOpts.startDate + '" readonly />',
       '<span class="' + this.timeWrap + '">',
-      '<select name="' + this.startHourId + '" id="' + this.startHourId + '">',
+      '<select name="' + this.startHourId + '" id="' + this.startHourId + '" class="ta_ipt_text_select">',
       '<option value="0" selected="selected">00</option>',
       time.startHour,
       '</select>',
       '<span>:</span> ',
-      '<select name="' + this.startSecondId + '" id="' + this.startSecondId + '">',
+      '<select name="' + this.startMinuteId + '" id="' + this.startMinuteId + '" class="ta_ipt_text_select">',
       '<option value="0" selected="selected">00</option>',
-      time.startSecond,
+      time.startMinute,
       '</select></span>',
       '<span class="' + this.mOpts.joinLineId + '"> - </span>',
       '<input type="text" class="ta_ipt_text_s" name="' + this.endDateId + '" id="' + this.endDateId + '" value="' + this.mOpts.endDate + '" readonly />',
       '<span class="' + this.timeWrap + '">',
-      '<select name="' + this.endHourId + '" id="' + this.endHourId + '">',
+      '<select name="' + this.endHourId + '" id="' + this.endHourId + '" class="ta_ipt_text_select">',
       time.endHour,
       '<option value="23" selected="selected">23</option>',
       '</select>',
       '<span>:</span> ',
-      '<select name="' + this.endSecondId + '" id="' + this.endSecondId + '">',
-      time.endSecond,
+      '<select name="' + this.endMinuteId + '" id="' + this.endMinuteId + '" class="ta_ipt_text_select">',
+      time.endMinute,
       '<option value="59" selected="selected">59</option>',
       '</select></span>',
       '</div>',
@@ -269,7 +269,7 @@ function pickerDateRange(inputId, options) {
   if (1 > $('#' + this.mOpts.startDateId).length) {
     $('' != this.mOpts.target ? '#' + this.mOpts.target : 'body').append('<input type="hidden" id="' + this.mOpts.startDateId + '" name="' + this.mOpts.startDateId + '" value="' + this.mOpts.startDate + '" />' +
       '<input type="hidden" id="' + this.mOpts.startHourId + '" name="' + this.mOpts.startHourId + '" value="00" class="' + this.timeWrap + '" />' +
-      '<input type="hidden" id="' + this.mOpts.startSecondId + '" name="' + this.mOpts.startSecondId + '" value="00" class="' + this.timeWrap + '" />'
+      '<input type="hidden" id="' + this.mOpts.startMinuteId + '" name="' + this.mOpts.startMinuteId + '" value="00" class="' + this.timeWrap + '" />'
     );
   } else {
     $('#' + this.mOpts.startDateId).val(this.mOpts.startDate);
@@ -277,7 +277,7 @@ function pickerDateRange(inputId, options) {
   if (1 > $('#' + this.mOpts.endDateId).length) {
     $('' != this.mOpts.target ? '#' + this.mOpts.target : 'body').append('<input type="hidden" id="' + this.mOpts.endDateId + '" name="' + this.mOpts.endDateId + '" value="' + this.mOpts.endDate + '" />' +
       '<input type="hidden" id="' + this.mOpts.endHourId + '" name="' + this.mOpts.endHourId + '" value="23" class="' + this.timeWrap + '" />' +
-      '<input type="hidden" id="' + this.mOpts.endSecondId + '" name="' + this.mOpts.endSecondId + '" value="59" class="' + this.timeWrap + '" />'
+      '<input type="hidden" id="' + this.mOpts.endMinuteId + '" name="' + this.mOpts.endMinuteId + '" value="59" class="' + this.timeWrap + '" />'
     );
   } else {
     $('#' + this.mOpts.endDateId).val(this.mOpts.endDate);
@@ -363,10 +363,10 @@ function pickerDateRange(inputId, options) {
     __method.mOpts.success({
       'startDate': $('#' + __method.mOpts.startDateId).val(),
       'startHour': $('#' + __method.mOpts.startHourId).val(),
-      'startSecond': $('#' + __method.mOpts.startSecondId).val(),
+      'startMinute': $('#' + __method.mOpts.startMinuteId).val(),
       'endDate': $('#' + __method.mOpts.endDateId).val(),
       'endHour': $('#' + __method.mOpts.endHourId).val(),
-      'endSecond': $('#' + __method.mOpts.endSecondId).val(),
+      'endMinute': $('#' + __method.mOpts.endMinuteId).val(),
       'needCompare': $('#' + __method.mOpts.compareCheckboxId).val(),
       'startCompareDate': $('#' + __method.mOpts.startCompareDateId).val(),
       'endCompareDate': $('#' + __method.mOpts.endCompareDateId).val()
@@ -474,10 +474,10 @@ function pickerDateRange(inputId, options) {
     __method.mOpts.success({
       'startDate': $('#' + __method.mOpts.startDateId).val(),
       'startHour': $('#' + __method.mOpts.startHourId).val(),
-      'startSecond': $('#' + __method.mOpts.startSecondId).val(),
+      'startMinute': $('#' + __method.mOpts.startMinuteId).val(),
       'endDate': $('#' + __method.mOpts.endDateId).val(),
       'endHour': $('#' + __method.mOpts.endHourId).val(),
-      'endSecond': $('#' + __method.mOpts.endSecondId).val(),
+      'endMinute': $('#' + __method.mOpts.endMinuteId).val(),
       'needCompare': $('#' + __method.mOpts.compareCheckboxId).val(),
       'startCompareDate': $('#' + __method.mOpts.startCompareDateId).val(),
       'endCompareDate': $('#' + __method.mOpts.endCompareDateId).val()
@@ -511,10 +511,10 @@ function pickerDateRange(inputId, options) {
     this.mOpts.success({
       'startDate': $('#' + __method.mOpts.startDateId).val(),
       'startHour': $('#' + __method.mOpts.startHourId).val(),
-      'startSecond': $('#' + __method.mOpts.startSecondId).val(),
+      'startMinute': $('#' + __method.mOpts.startMinuteId).val(),
       'endDate': $('#' + __method.mOpts.endDateId).val(),
       'endHour': $('#' + __method.mOpts.endHourId).val(),
-      'endSecond': $('#' + __method.mOpts.endSecondId).val(),
+      'endMinute': $('#' + __method.mOpts.endMinuteId).val(),
       'needCompare': $('#' + __method.mOpts.compareCheckboxId).val(),
       'startCompareDate': $('#' + __method.mOpts.startCompareDateId).val(),
       'endCompareDate': $('#' + __method.mOpts.endCompareDateId).val()
@@ -1193,7 +1193,7 @@ pickerDateRange.prototype.close = function (btnSubmit) {
     // 更改目标元素值
     $('#' + this.mOpts.startDateId).val($('#' + this.startDateId).val());
     $('#' + this.mOpts.endDateId).val($('#' + this.endDateId).val());
-    __method.changeTimeValue($('#' + this.startHourId).val(), $('#' + this.startSecondId).val(), $('#' + this.endHourId).val(), $('#' + this.endSecondId).val());
+    __method.changeTimeValue($('#' + this.startHourId).val(), $('#' + this.startMinuteId).val(), $('#' + this.endHourId).val(), $('#' + this.endMinuteId).val());
     $('#' + this.mOpts.startCompareDateId).val($('#' + this.startCompareDateId).val());
     $('#' + this.mOpts.endCompareDateId).val($('#' + this.endCompareDateId).val());
     //点击确定按钮进行查询后将取消所有的今天 昨天 最近7天的快捷链接 added by johnnyzheng 11-29
@@ -1205,35 +1205,35 @@ pickerDateRange.prototype.close = function (btnSubmit) {
     // 如果开始日期等于结束日期，则比较小时/分钟，始终保持开始时间小于结束时间
     if (0 == this.compareStrDate($('#' + this.startDateId).val(), $('#' + this.endDateId).val())) {
       var startHour = Number($('#' + this.startHourId).val()),
-        startSecond = Number($('#' + this.startSecondId).val()),
+        startMinute = Number($('#' + this.startMinuteId).val()),
         endHour = Number($('#' + this.endHourId).val()),
-        endSecond = Number($('#' + this.endSecondId).val());
+        endMinute = Number($('#' + this.endMinuteId).val());
       if (startHour < endHour) { // 1:00 vs 2:00
-        __method.changeTimeValue($('#' + this.startHourId).val(), $('#' + this.startSecondId).val(), $('#' + this.endHourId).val(), $('#' + this.endSecondId).val());
+        __method.changeTimeValue($('#' + this.startHourId).val(), $('#' + this.startMinuteId).val(), $('#' + this.endHourId).val(), $('#' + this.endMinuteId).val());
         $('#' + this.startHourId).val(startHour);
-        $('#' + this.startSecondId).val(startSecond);
+        $('#' + this.startMinuteId).val(startMinute);
         $('#' + this.endHourId).val(endHour);
-        $('#' + this.endSecondId).val(endSecond);
+        $('#' + this.endMinuteId).val(endMinute);
       } else if (startHour == endHour) { // 1:00 vs 1:00
-        if (startSecond <= endSecond) { // 1:01 vs 1:02, 1:02 vs 1:02
-          __method.changeTimeValue($('#' + this.startHourId).val(), $('#' + this.startSecondId).val(), $('#' + this.endHourId).val(), $('#' + this.endSecondId).val());
+        if (startMinute <= endMinute) { // 1:01 vs 1:02, 1:02 vs 1:02
+          __method.changeTimeValue($('#' + this.startHourId).val(), $('#' + this.startMinuteId).val(), $('#' + this.endHourId).val(), $('#' + this.endMinuteId).val());
           $('#' + this.startHourId).val(startHour);
-          $('#' + this.startSecondId).val(startSecond);
+          $('#' + this.startMinuteId).val(startMinute);
           $('#' + this.endHourId).val(endHour);
-          $('#' + this.endSecondId).val(endSecond);
+          $('#' + this.endMinuteId).val(endMinute);
         } else { // 1:03 vs 1:02 => 1:02 vs 1:03
-          __method.changeTimeValue($('#' + this.endHourId).val(), $('#' + this.endSecondId).val(), $('#' + this.startHourId).val(), $('#' + this.startSecondId).val());
+          __method.changeTimeValue($('#' + this.endHourId).val(), $('#' + this.endMinuteId).val(), $('#' + this.startHourId).val(), $('#' + this.startMinuteId).val());
           $('#' + this.startHourId).val(endHour);
-          $('#' + this.startSecondId).val(endSecond);
+          $('#' + this.startMinuteId).val(endMinute);
           $('#' + this.endHourId).val(startHour);
-          $('#' + this.endSecondId).val(startSecond);
+          $('#' + this.endMinuteId).val(startMinute);
         }
       } else { // 2:03 vs 1:22 => 1:22 vs 2:03
-        __method.changeTimeValue($('#' + this.endHourId).val(), $('#' + this.endSecondId).val(), $('#' + this.startHourId).val(), $('#' + this.startSecondId).val());
+        __method.changeTimeValue($('#' + this.endHourId).val(), $('#' + this.endMinuteId).val(), $('#' + this.startHourId).val(), $('#' + this.startMinuteId).val());
         $('#' + this.startHourId).val(endHour);
-        $('#' + this.startSecondId).val(endSecond);
+        $('#' + this.startMinuteId).val(endMinute);
         $('#' + this.endHourId).val(startHour);
-        $('#' + this.endSecondId).val(startSecond);
+        $('#' + this.endMinuteId).val(startMinute);
       }
     }
   }
@@ -1571,7 +1571,7 @@ pickerDateRange.prototype.formatTime = function (time) {
  */
 pickerDateRange.prototype.changeTimeValue = function (a, b, c, d) {
   $('#' + this.mOpts.startHourId).val(this.formatTime(a));
-  $('#' + this.mOpts.startSecondId).val(this.formatTime(b));
+  $('#' + this.mOpts.startMinuteId).val(this.formatTime(b));
   $('#' + this.mOpts.endHourId).val(this.formatTime(c));
-  $('#' + this.mOpts.endSecondId).val(this.formatTime(d));
+  $('#' + this.mOpts.endMinuteId).val(this.formatTime(d));
 }

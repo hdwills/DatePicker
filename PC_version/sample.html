@@ -87,8 +87,9 @@
 					defaultText : ' 至 ',
 					stopToday:false,
 					inputTrigger : 'input_trigger_demo1',
+					timeSelect : true,
 					success : function(obj) {
-						$("#dCon_demo1").html('开始时间 : ' + obj.startDate + '<br/>结束时间 : ' + obj.endDate);
+						$("#dCon_demo1").html('开始时间 : ' + obj.startDate + ' ' + obj.startHour + ':' + obj.startMinute + '<br/>结束时间 : ' + obj.endDate + ' ' + obj.endHour + ':' + obj.endMinute);
 					}
 				});
 
