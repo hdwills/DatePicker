@@ -32,7 +32,11 @@ function pickerDateRange(inputId, options) {
     aRecent30Days: 'aRecent30Days', //最近30天
     aRecent90Days: 'aRecent90Days', //最近90天
     startDate: '', // 开始日期
+    startHour: '', // 开始小时
+    startMinute: '', // 开始分钟
     endDate: '', // 结束日期
+    endHour: '', // 结束小时
+    endMinute: '', // 结束分钟
     startCompareDate: '', // 对比开始日期
     endCompareDate: '', // 对比结束日期
     minValidDate: '315507600', //最小可用时间，控制日期选择器的可选力度
@@ -144,19 +148,19 @@ function pickerDateRange(inputId, options) {
     endHour: '',
     endMinute: ''
   }
-  for (var i = 1; i < 24; i++) {
+  for (var i = 0; i < 24; i++) {
     var complementStartHour = i < 10 ? '0' + i : i;
     time.startHour += '<option value=' + i + '>' + complementStartHour + '</option>';
   }
-  for (var j = 1; j < 60; j++) {
+  for (var j = 0; j < 60; j++) {
     var complementstartMinute = j < 10 ? '0' + j : j;
     time.startMinute += '<option value=' + j + '>' + complementstartMinute + '</option>'
   }
-  for (var i = 0; i < 23; i++) {
+  for (var i = 0; i < 24; i++) {
     var complementEndHour = i < 10 ? '0' + i : i;
     time.endHour += '<option value=' + i + '>' + complementEndHour + '</option>';
   }
-  for (var j = 0; j < 59; j++) {
+  for (var j = 0; j < 60; j++) {
     var complementendMinute = j < 10 ? '0' + j : j;
     time.endMinute += '<option value=' + j + '>' + complementendMinute + '</option>'
   }
@@ -193,12 +197,10 @@ function pickerDateRange(inputId, options) {
       '<input type="text" class="ta_ipt_text_s" name="' + this.startDateId + '" id="' + this.startDateId + '" value="' + this.mOpts.startDate + '" readonly />',
       '<span class="' + this.timeWrap + '">',
       '<select name="' + this.startHourId + '" id="' + this.startHourId + '" class="ta_ipt_text_select">',
-      '<option value="0" selected="selected">00</option>',
       time.startHour,
       '</select>',
       '<span>:</span> ',
       '<select name="' + this.startMinuteId + '" id="' + this.startMinuteId + '" class="ta_ipt_text_select">',
-      '<option value="0" selected="selected">00</option>',
       time.startMinute,
       '</select></span>',
       '<span class="' + this.mOpts.joinLineId + '"> - </span>',
@@ -206,12 +208,10 @@ function pickerDateRange(inputId, options) {
       '<span class="' + this.timeWrap + '">',
       '<select name="' + this.endHourId + '" id="' + this.endHourId + '" class="ta_ipt_text_select">',
       time.endHour,
-      '<option value="23" selected="selected">23</option>',
       '</select>',
       '<span>:</span> ',
       '<select name="' + this.endMinuteId + '" id="' + this.endMinuteId + '" class="ta_ipt_text_select">',
       time.endMinute,
-      '<option value="59" selected="selected">59</option>',
       '</select></span>',
       '</div>',
       '<div id="' + this.dateRangeCompareDiv + '">',
@@ -268,17 +268,21 @@ function pickerDateRange(inputId, options) {
   // 初始化目标地址的元素
   if (1 > $('#' + this.mOpts.startDateId).length) {
     $('' != this.mOpts.target ? '#' + this.mOpts.target : 'body').append('<input type="hidden" id="' + this.mOpts.startDateId + '" name="' + this.mOpts.startDateId + '" value="' + this.mOpts.startDate + '" />' +
-      '<input type="hidden" id="' + this.mOpts.startHourId + '" name="' + this.mOpts.startHourId + '" value="00" class="' + this.timeWrap + '" />' +
-      '<input type="hidden" id="' + this.mOpts.startMinuteId + '" name="' + this.mOpts.startMinuteId + '" value="00" class="' + this.timeWrap + '" />'
+      '<input type="hidden" id="' + this.mOpts.startHourId + '" name="' + this.mOpts.startHourId + '" value="' + this.mOpts.startHour + '" class="' + this.timeWrap + '" />' +
+      '<input type="hidden" id="' + this.mOpts.startMinuteId + '" name="' + this.mOpts.startMinuteId + '" value="' + this.mOpts.startMinute + '" class="' + this.timeWrap + '" />'
     );
+    $('#' + this.startHourId).val(this.mOpts.startHour);
+    $('#' + this.startMinuteId).val(this.mOpts.startMinute);
   } else {
     $('#' + this.mOpts.startDateId).val(this.mOpts.startDate);
   }
   if (1 > $('#' + this.mOpts.endDateId).length) {
     $('' != this.mOpts.target ? '#' + this.mOpts.target : 'body').append('<input type="hidden" id="' + this.mOpts.endDateId + '" name="' + this.mOpts.endDateId + '" value="' + this.mOpts.endDate + '" />' +
-      '<input type="hidden" id="' + this.mOpts.endHourId + '" name="' + this.mOpts.endHourId + '" value="23" class="' + this.timeWrap + '" />' +
-      '<input type="hidden" id="' + this.mOpts.endMinuteId + '" name="' + this.mOpts.endMinuteId + '" value="59" class="' + this.timeWrap + '" />'
+      '<input type="hidden" id="' + this.mOpts.endHourId + '" name="' + this.mOpts.endHourId + '" value="' + this.mOpts.endHour + '" class="' + this.timeWrap + '" />' +
+      '<input type="hidden" id="' + this.mOpts.endMinuteId + '" name="' + this.mOpts.endMinuteId + '" value="' + this.mOpts.endMinute + '" class="' + this.timeWrap + '" />'
     );
+    $('#' + this.endHourId).val(this.mOpts.endHour);
+    $('#' + this.endMinuteId).val(this.mOpts.endMinute);
   } else {
     $('#' + this.mOpts.endDateId).val(this.mOpts.endDate);
   }
