@@ -31,12 +31,12 @@ function pickerDateRange(inputId, options) {
     aRecent14Days: 'aRecent14Days', //最近14天
     aRecent30Days: 'aRecent30Days', //最近30天
     aRecent90Days: 'aRecent90Days', //最近90天
-    startDate: '', // 开始日期
-    startHour: '', // 开始小时
-    startMinute: '', // 开始分钟
-    endDate: '', // 结束日期
-    endHour: '', // 结束小时
-    endMinute: '', // 结束分钟
+    startDate: '', // 开始日期 2018-01-01
+    startHour: '', // 开始小时 0-23
+    startMinute: '', // 开始分钟 0-59
+    endDate: '', // 结束日期 2018-01-01
+    endHour: '', // 结束小时 0-23
+    endMinute: '', // 结束分钟 0-59
     startCompareDate: '', // 对比开始日期
     endCompareDate: '', // 对比结束日期
     minValidDate: '315507600', //最小可用时间，控制日期选择器的可选力度
@@ -149,20 +149,14 @@ function pickerDateRange(inputId, options) {
     endMinute: ''
   }
   for (var i = 0; i < 24; i++) {
-    var complementStartHour = i < 10 ? '0' + i : i;
-    time.startHour += '<option value=' + i + '>' + complementStartHour + '</option>';
+    var complementHour = i < 10 ? '0' + i : i;
+    time.startHour += '<option value=' + i + '>' + complementHour + '</option>';
+    time.endHour += '<option value=' + i + '>' + complementHour + '</option>';
   }
   for (var j = 0; j < 60; j++) {
-    var complementstartMinute = j < 10 ? '0' + j : j;
-    time.startMinute += '<option value=' + j + '>' + complementstartMinute + '</option>'
-  }
-  for (var i = 0; i < 24; i++) {
-    var complementEndHour = i < 10 ? '0' + i : i;
-    time.endHour += '<option value=' + i + '>' + complementEndHour + '</option>';
-  }
-  for (var j = 0; j < 60; j++) {
-    var complementendMinute = j < 10 ? '0' + j : j;
-    time.endMinute += '<option value=' + j + '>' + complementendMinute + '</option>'
+    var complementMinute = j < 10 ? '0' + j : j;
+    time.startMinute += '<option value=' + j + '>' + complementMinute + '</option>';
+    time.endMinute += '<option value=' + j + '>' + complementMinute + '</option>';
   }
   var wrapper = {
     gri: [
@@ -624,7 +618,7 @@ pickerDateRange.prototype.init = function (isCompare) {
 
   // 初始化时间选区背景
   if (this.endDateId != this.dateInput && this.endCompareDateId != this.dateInput) {
-    (isNeedCompare && typeof (isCompare) != 'undefined') ? this.addCSS(1): this.addCSS(0);
+    (isNeedCompare && typeof (isCompare) != 'undefined') ? this.addCSS(1) : this.addCSS(0);
   }
 
   if (isNeedCompare && typeof (isCompare) != 'undefined') {

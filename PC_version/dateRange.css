@@ -697,6 +697,7 @@ input {
     background: #fafafa;
     padding-top: 6px;
     height: 34px;
+    margin-top: 9px;
 }
 
 .ta_calendar_footer .frm_btn {
@@ -857,4 +858,8 @@ input {
 .cf:after {
     content: "";
     display: table;
+}
+
+input[readonly] {
+    background-color: #eee;
 }
