@@ -1,6 +1,6 @@
 # DatePicker
 - forked from [johnnyzheng/DatePicker](https://github.com/johnnyzheng/DatePicker)    
-- modified demo is here [DatePicker](http://hdwills.com/DatePicker/)
+- modified demo is here [DatePicker](http://hdwills.github.io/DatePicker/)
 
 ## 组件说明
 日期选择组件，覆盖大部分的日期选择的交互和功能，特别适合基于日期操作的配置类或数据展示类PC端系统或者应用，或者手机端的有日期点选操作的H5应用。
